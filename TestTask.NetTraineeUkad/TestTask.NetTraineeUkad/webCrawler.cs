@@ -78,7 +78,7 @@ namespace TestTask.NetTraineeUkad
                     var absUrl = GetAbsoluteUrlString(url, link);
                     var checkUrl = url.Replace("https://", "");
 
-                    if (absUrl.Contains(checkUrl))
+                    if (absUrl.Contains(checkUrl) && !listUrls.Keys.ToList().Contains(absUrl))
                     {
                         listUrls.Add(absUrl, "");
                     }
