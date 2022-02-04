@@ -24,27 +24,20 @@ namespace TestTask.NetTraineeUkad
             visitedUrl.Add(url);
             await proccessCrawler(url);
 
-            try
+            foreach (var item in listUrls.Keys.ToList())
             {
-                foreach (var item in listUrls.Keys.ToList())
+                if (!visitedUrl.Contains(item))
                 {
-                    if (!visitedUrl.Contains(item))
+                    visitedUrl.Add(item);
+                    lock (locker)
                     {
-                        visitedUrl.Add(item);
-                        lock (locker)
-                        {
-                            _ = proccessCrawler(item);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Found repeat.");
+                        _ = proccessCrawler(item);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                else
+                {
+                    Console.WriteLine("Found repeat.");
+                }
             }
 
             _client.Dispose();
