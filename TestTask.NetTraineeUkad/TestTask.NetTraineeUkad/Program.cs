@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using HtmlAgilityPack;
-using System.Text;
-using System.Data.Odbc;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace TestTask.NetTraineeUkad
 {
@@ -14,8 +8,10 @@ namespace TestTask.NetTraineeUkad
         static void Main(string[] args)
         {
             webCrawler webCrawler = new webCrawler();
-            webCrawler.startCrawler("https://github.com/");
-            Console.ReadLine();
+            _ = webCrawler.startCrawler("https://github.com/");
+            Thread.Sleep(1000); // Можно ли каким то способом подождать завершение метода сверху чтобы перейти дальше ?
+            sitemapCrawler sitemap = new sitemapCrawler();
+            sitemap.Parse();
         }
     }
 }
