@@ -21,9 +21,8 @@ namespace TestTask.NetTraineeUkad
 
         internal async Task startCrawler(string url)
         {
-            var checkUrl = url.Replace("https://", "");
-            await proccessCrawler(url, checkUrl);
             visitedUrl.Add(url);
+            await proccessCrawler(url);
 
             try
             {
@@ -34,7 +33,7 @@ namespace TestTask.NetTraineeUkad
                         visitedUrl.Add(item);
                         lock (locker)
                         {
-                            _ = proccessCrawler(item, item.Replace("https://", ""));
+                            _ = proccessCrawler(item);
                         }
                     }
                     else
@@ -56,7 +55,7 @@ namespace TestTask.NetTraineeUkad
             }
         }
 
-        private async Task proccessCrawler(string url, string checkUrl)
+        private async Task proccessCrawler(string url)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
@@ -77,6 +76,7 @@ namespace TestTask.NetTraineeUkad
                 try
                 {
                     var absUrl = GetAbsoluteUrlString(url, link);
+                    var checkUrl = url.Replace("https://", "");
 
                     if (absUrl.Contains(checkUrl))
                     {
