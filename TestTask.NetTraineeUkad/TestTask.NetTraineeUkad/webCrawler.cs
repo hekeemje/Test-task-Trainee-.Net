@@ -35,7 +35,6 @@ namespace TestTask.NetTraineeUkad
                         lock (locker)
                         {
                             _ = proccessCrawler(item, item.Replace("https://", ""));
-                            Console.WriteLine($"Added new {item}");
                         }
                     }
                     else
@@ -51,7 +50,10 @@ namespace TestTask.NetTraineeUkad
 
             _client.Dispose();
 
-            Console.WriteLine("GG");
+            foreach (var item in listUrls.Keys.ToList())
+            {
+                Console.WriteLine(item);
+            }
         }
 
         private async Task proccessCrawler(string url, string checkUrl)

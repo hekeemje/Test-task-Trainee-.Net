@@ -9,7 +9,7 @@ namespace TestTask.NetTraineeUkad
         {
             webCrawler webCrawler = new webCrawler();
             _ = webCrawler.startCrawler("https://github.com/");
-            Thread.Sleep(1000); // Можно ли каким то способом подождать завершение метода сверху чтобы перейти дальше ?
+            Thread.Sleep(1500); // Можно ли каким то способом подождать завершение метода сверху чтобы перейти дальше ?
             sitemapCrawler sitemap = new sitemapCrawler();
             sitemap.Parse();
         }
