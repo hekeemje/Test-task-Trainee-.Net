@@ -19,7 +19,7 @@ namespace TestTask.NetTraineeUkad
             {
                 if (node["loc"] != null)
                 {
-                    Console.WriteLine("Url : " + node["loc"].InnerText);
+                    Console.WriteLine("Url sitemap example : " + node["loc"].InnerText);
                 }
             }
         }
