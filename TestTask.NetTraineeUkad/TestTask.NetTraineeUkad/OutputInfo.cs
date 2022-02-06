@@ -104,15 +104,9 @@ namespace TestTask.NetTraineeUkad
 
         private async Task checkPingAndSortAsync(List<string> allUrls, int websiteCount, int sitemapCount)
         {
-            Dictionary<string, int> urlsPing = new Dictionary<string, int>();
-            var random = new Random();
             var getAsyncTime = new GetAsyncUrl();
 
-            foreach (var item in allUrls)
-            {
-                var responceTime = await getAsyncTime.ShowAsyncTime(item);
-                urlsPing.Add(item, responceTime);
-            }
+            var urlsPing = await getAsyncTime.StartAsync(allUrls);
 
             var sortedDict = from entry in urlsPing orderby entry.Value ascending select entry;
 

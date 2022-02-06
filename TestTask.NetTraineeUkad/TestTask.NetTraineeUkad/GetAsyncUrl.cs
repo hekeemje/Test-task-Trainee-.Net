@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,14 +9,30 @@ namespace TestTask.NetTraineeUkad
     class GetAsyncUrl
     {
         private readonly HttpClient _client;
+        private Dictionary<string, int> urlsPing;
 
         public GetAsyncUrl()
         {
             _client = new HttpClient();
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");
+            urlsPing = new Dictionary<string, int>();
         }
 
-        public async Task<int> ShowAsyncTime(string url)
+        public async Task<Dictionary<string, int>> StartAsync(List<string> urls)
+        {
+            var tasks = new List<Task>();
+
+            foreach (var item in urls)
+            {
+                tasks.Add(asyncTime(item));
+            }
+
+            await Task.WhenAll(tasks);
+
+            return urlsPing;
+        }
+
+        private async Task asyncTime(string url)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
@@ -23,7 +40,7 @@ namespace TestTask.NetTraineeUkad
             if (!response.IsSuccessStatusCode || response.Content == null || response.Content.Headers.ContentType.MediaType != "text/html")
             {
                 Console.WriteLine($">> Invalid response for {url} <<\n");
-                return 0;
+                return;
             }
 
             var sw = new Stopwatch();
@@ -31,8 +48,7 @@ namespace TestTask.NetTraineeUkad
             await _client.GetStringAsync(url);
             sw.Stop();
 
-            return (int)sw.ElapsedMilliseconds;
+            urlsPing.Add(url, (int)sw.ElapsedMilliseconds);
         }
-
     }
 }

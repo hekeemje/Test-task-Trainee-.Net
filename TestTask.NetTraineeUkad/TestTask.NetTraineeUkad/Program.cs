@@ -10,6 +10,7 @@ namespace TestTask.NetTraineeUkad
         {
             //Console.Write("Please, input url adress for crawling ( Example : https://github.com/ ) \nUrl : ");
             //string url = Console.ReadLine();
+            Console.WriteLine("Running...\n");
 
             var url = "https://seoagilitytools.com/";
 
@@ -17,8 +18,6 @@ namespace TestTask.NetTraineeUkad
             {
                 using var webCrawler = new WebCrawler();
                 var websiteUrls = await webCrawler.startCrawler(url);
-
-                Console.WriteLine("Running...\n");
 
                 var sitemap = new SitemapCrawler();
                 var sitemapUrls = new List<string>();
