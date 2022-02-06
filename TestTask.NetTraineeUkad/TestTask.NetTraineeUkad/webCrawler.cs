@@ -4,13 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using HtmlAgilityPack;
 using System.Threading.Tasks;
-using System.Web;
 using System.Threading;
-using System.Net;
 
 namespace TestTask.NetTraineeUkad
 {
-    internal class webCrawler : IDisposable
+    internal class WebCrawler : IDisposable
     {
         private const int maxRequestCount = 10;
         private int _requestCount;
@@ -18,14 +16,14 @@ namespace TestTask.NetTraineeUkad
         private readonly HttpClient _client;
         string _checkurl;
 
-        public webCrawler()
+        public WebCrawler()
         {
             _urls = new HashSet<string>();
             _client = new HttpClient();
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");
         }
 
-        internal async Task<string[]> startCrawler(string url)
+        internal async Task<List <string>> startCrawler(string url)
         {
             _requestCount = 0;
             _urls.Clear();
@@ -36,7 +34,7 @@ namespace TestTask.NetTraineeUkad
 
             await proccessCrawler(url, 2);
 
-            return _urls.ToArray();
+            return _urls.ToList();
         }
 
         private async Task proccessCrawler(string url, int depth)
@@ -60,7 +58,7 @@ namespace TestTask.NetTraineeUkad
 
             var links = htmlDocument.DocumentNode.SelectNodes("//a[@href]").Select(node => node.Attributes["href"].Value).Where(link => link.Length > 0 && !link.Contains("#") && !link.Contains("?"));
 
-            List<Task> tasks = new List<Task>();
+            var tasks = new List<Task>();
 
             foreach (var link in links)
             {

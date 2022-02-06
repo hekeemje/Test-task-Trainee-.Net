@@ -1,27 +1,30 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Xml;
 
 namespace TestTask.NetTraineeUkad
 {
-    internal class sitemapCrawler
+    internal class SitemapCrawler
     {
-        public void Parse()
+        internal List<string> Parse(string sitemapURL)
         {
-            string sitemapURL = "https://seoagilitytools.com/sitemap.xml";
-            WebClient wc = new WebClient();
-            string sitemapString = wc.DownloadString(sitemapURL);
-            XmlDocument urldoc = new XmlDocument();
+            var wc = new WebClient();
+            var sitemapString = wc.DownloadString(sitemapURL);
+            var urldoc = new XmlDocument();
             urldoc.LoadXml(sitemapString);
-            XmlNodeList xmlSitemapList = urldoc.GetElementsByTagName("url");
+            var xmlSitemapList = urldoc.GetElementsByTagName("url");
+
+            var sitemapUrls = new List<string>();
 
             foreach (XmlNode node in xmlSitemapList)
             {
                 if (node["loc"] != null)
                 {
-                    Console.WriteLine("Url sitemap example : " + node["loc"].InnerText);
+                    sitemapUrls.Add(node["loc"].InnerText);
                 }
             }
+
+            return sitemapUrls;
         }
     }
 }
