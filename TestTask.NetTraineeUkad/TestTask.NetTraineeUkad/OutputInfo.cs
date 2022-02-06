@@ -110,7 +110,7 @@ namespace TestTask.NetTraineeUkad
 
             foreach (var item in allUrls)
             {
-                int responceTime = await getAsyncTime.showAsyncTime(item);
+                var responceTime = await getAsyncTime.ShowAsyncTime(item);
                 urlsPing.Add(item, responceTime);
             }
 
