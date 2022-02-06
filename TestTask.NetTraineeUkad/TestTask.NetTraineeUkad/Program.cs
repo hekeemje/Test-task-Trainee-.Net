@@ -35,7 +35,7 @@ namespace TestTask.NetTraineeUkad
                 }
 
                 var outputInfo = new OutputInfo();
-                outputInfo.OutputAllInfo(websiteUrls,sitemapUrls);
+                await outputInfo.OutputAllInfoAsync(websiteUrls, sitemapUrls);
             }
             catch
             {

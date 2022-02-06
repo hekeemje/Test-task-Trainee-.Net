@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TestTask.NetTraineeUkad
 {
     class OutputInfo
     {
-        internal void OutputAllInfo(List<string> websiteUrls, List<string> sitemapUrls)
+        internal async Task OutputAllInfoAsync(List<string> websiteUrls, List<string> sitemapUrls)
         {
             byWebsite(websiteUrls, sitemapUrls);
             bySitemap(websiteUrls, sitemapUrls);
 
             if (sitemapUrls.Count == 0)
             {
-                checkPingAndSort(websiteUrls, websiteUrls.Count, sitemapUrls.Count);
+                await checkPingAndSortAsync(websiteUrls, websiteUrls.Count, sitemapUrls.Count);
             }
             else
             {
                 List<string> mergedUrls = mergeUrls(websiteUrls, sitemapUrls);
 
-                checkPingAndSort(mergedUrls, websiteUrls.Count, sitemapUrls.Count);
+                await checkPingAndSortAsync(mergedUrls, websiteUrls.Count, sitemapUrls.Count);
             }
         }
 
@@ -101,14 +102,16 @@ namespace TestTask.NetTraineeUkad
             return mergedUrls;
         }
 
-        private void checkPingAndSort(List<string> allUrls, int websiteCount, int sitemapCount)
+        private async Task checkPingAndSortAsync(List<string> allUrls, int websiteCount, int sitemapCount)
         {
             Dictionary<string, int> urlsPing = new Dictionary<string, int>();
             var random = new Random();
+            var getAsyncTime = new GetAsyncUrl();
 
             foreach (var item in allUrls)
             {
-                urlsPing.Add(item, random.Next(100,1500)); // тут я ещё доделаю добавлю время отклика , а то пробовал с классом Ping не получилось для любой url
+                await getAsyncTime.showAsyncTime(item);
+                //urlsPing.Add(item, random.Next(100,1500)); // тут я ещё доделаю добавлю время отклика , а то пробовал с классом Ping не получилось для любой url
             }
 
             var sortedDict = from entry in urlsPing orderby entry.Value ascending select entry;
