@@ -13,26 +13,20 @@ namespace TestTask.NetTraineeUkad
 
             var url = "https://seoagilitytools.com/";
 
-            using var webCrawler = new WebCrawler();
             try
             {
+                using var webCrawler = new WebCrawler();
                 var websiteUrls = await webCrawler.startCrawler(url);
 
                 Console.WriteLine("Running...\n");
 
-
-                SitemapCrawler sitemap = new SitemapCrawler();
-                List<string> sitemapUrls = new List<string>();
-
-                OutputInfo outputInfo = new OutputInfo();
+                var sitemap = new SitemapCrawler();
+                var sitemapUrls = new List<string>();
 
                 try
                 {
                     var sitemapUrl = url + "sitemap.xml";
                     sitemapUrls = sitemap.Parse(sitemapUrl);
-
-                    outputInfo.byWebsite(websiteUrls, sitemapUrls);
-                    outputInfo.bySitemap(websiteUrls, sitemapUrls);
                 }
 
                 catch
@@ -40,16 +34,8 @@ namespace TestTask.NetTraineeUkad
                     Console.WriteLine($"\nSitemap doesnt exist on {url}\n");
                 }
 
-                if (sitemapUrls.Count == 0)
-                {
-                    outputInfo.checkPingAndSort(websiteUrls, websiteUrls.Count, sitemapUrls.Count);
-                }
-                else
-                {
-                    List<string> mergedUrls = outputInfo.mergeUrls(websiteUrls, sitemapUrls);
-
-                    outputInfo.checkPingAndSort(mergedUrls, websiteUrls.Count, sitemapUrls.Count);
-                }
+                var outputInfo = new OutputInfo();
+                outputInfo.OutputAllInfo(websiteUrls,sitemapUrls);
             }
             catch
             {

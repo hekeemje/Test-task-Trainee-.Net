@@ -8,7 +8,24 @@ namespace TestTask.NetTraineeUkad
 {
     class OutputInfo
     {
-        internal void byWebsite(List<string> websiteUrls, List<string> sitemapUrls)
+        internal void OutputAllInfo(List<string> websiteUrls, List<string> sitemapUrls)
+        {
+            byWebsite(websiteUrls, sitemapUrls);
+            bySitemap(websiteUrls, sitemapUrls);
+
+            if (sitemapUrls.Count == 0)
+            {
+                checkPingAndSort(websiteUrls, websiteUrls.Count, sitemapUrls.Count);
+            }
+            else
+            {
+                List<string> mergedUrls = mergeUrls(websiteUrls, sitemapUrls);
+
+                checkPingAndSort(mergedUrls, websiteUrls.Count, sitemapUrls.Count);
+            }
+        }
+
+        private void byWebsite(List<string> websiteUrls, List<string> sitemapUrls)
         {
             Console.WriteLine("Urls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml\n");
 
@@ -35,7 +52,7 @@ namespace TestTask.NetTraineeUkad
             }
         }
 
-        internal void bySitemap(List<string> websiteUrls, List<string> sitemapUrls)
+        private void bySitemap(List<string> websiteUrls, List<string> sitemapUrls)
         {
             Console.WriteLine("\nUrls FOUNDED IN SITEMAP.XML but not founded after crawling a web site\n");
 
@@ -64,7 +81,7 @@ namespace TestTask.NetTraineeUkad
             }
         }
 
-        internal List<string> mergeUrls(List<string> websiteUrls, List<string> sitemapUrls)
+        private List<string> mergeUrls(List<string> websiteUrls, List<string> sitemapUrls)
         {
             var mergedUrls = new List<string>();
 
@@ -84,7 +101,7 @@ namespace TestTask.NetTraineeUkad
             return mergedUrls;
         }
 
-        internal void checkPingAndSort(List<string> allUrls, int websiteCount, int sitemapCount)
+        private void checkPingAndSort(List<string> allUrls, int websiteCount, int sitemapCount)
         {
             Dictionary<string, int> urlsPing = new Dictionary<string, int>();
             var random = new Random();
