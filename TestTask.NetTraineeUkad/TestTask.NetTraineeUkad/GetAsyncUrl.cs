@@ -7,13 +7,6 @@ namespace TestTask.NetTraineeUkad
 {
     class GetAsyncUrl
     {
-        public async Task<(TimeSpan, T)> RunStopwatchAsync<T>(Func<Task<T>> func)
-        {
-            Stopwatch sw = Stopwatch.StartNew();
-            T result = await func();
-            return (sw.Elapsed, result);
-        }
-
         private readonly HttpClient _client;
 
         public GetAsyncUrl()
@@ -22,10 +15,15 @@ namespace TestTask.NetTraineeUkad
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");
         }
 
-        public async Task showAsyncTime(string url)
+        public async Task<int> showAsyncTime(string url)
         {
-            (TimeSpan elapsed, string html) = await RunStopwatchAsync(() => _client.GetStringAsync(url));
-            Console.WriteLine((int)elapsed.TotalMilliseconds);
+            var sw = new Stopwatch();
+            sw.Restart();
+            await _client.GetStringAsync(url);
+            sw.Stop();
+
+            return (int)sw.ElapsedMilliseconds;
         }
+
     }
 }

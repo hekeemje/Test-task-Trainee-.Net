@@ -69,7 +69,7 @@ namespace TestTask.NetTraineeUkad
 
             if (bySitemap.Count == 0)
             {
-                Console.WriteLine("0 - Nothing");
+                Console.WriteLine("0 - Nothing\n");
             }
             else
             {
@@ -110,13 +110,13 @@ namespace TestTask.NetTraineeUkad
 
             foreach (var item in allUrls)
             {
-                await getAsyncTime.showAsyncTime(item);
-                //urlsPing.Add(item, random.Next(100,1500)); // тут я ещё доделаю добавлю время отклика , а то пробовал с классом Ping не получилось для любой url
+                int responceTime = await getAsyncTime.showAsyncTime(item);
+                urlsPing.Add(item, responceTime);
             }
 
             var sortedDict = from entry in urlsPing orderby entry.Value ascending select entry;
 
-            Console.WriteLine("\nTiming :\n");
+            Console.WriteLine("Timing :\n");
 
             var i = 1;
 
