@@ -6,18 +6,18 @@ namespace TestTask.NetTraineeUkad
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
-            //Console.Write("Please, input url adress for crawling ( Example : https://github.com/ ) \nUrl : ");
-            //string url = Console.ReadLine();
-            Console.WriteLine("Running...\n");
-
-            var url = "https://github.com/";
-
             try
             {
+                Console.Write("Please, input url adress for crawling ( Example : https://github.com/ ) \nUrl : ");
+                Uri url = new(Console.ReadLine());
+                Console.WriteLine("Running...\n");
+
+                //var url = "https://seoagilitytools.com/";
+
                 using var webCrawler = new WebCrawler();
-                var websiteUrls = await webCrawler.StartCrawler(url);
+                var websiteUrls = await webCrawler.StartCrawler(url.ToString());
 
                 var sitemap = new SitemapCrawler();
                 var sitemapUrls = new List<string>();
@@ -43,4 +43,3 @@ namespace TestTask.NetTraineeUkad
         }
     }
 }
-

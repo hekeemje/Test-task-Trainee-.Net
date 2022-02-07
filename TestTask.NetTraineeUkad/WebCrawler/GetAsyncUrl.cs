@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TestTask.NetTraineeUkad
@@ -34,6 +35,7 @@ namespace TestTask.NetTraineeUkad
 
         private async Task AsyncTime(string url)
         {
+            Thread.Sleep(2000);
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 

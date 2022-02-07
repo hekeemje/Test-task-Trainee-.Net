@@ -10,8 +10,6 @@ namespace TestTask.NetTraineeUkad
 {
     internal class WebCrawler : IDisposable
     {
-        private const int maxRequestCount = 10;
-        private int _requestCount;
         private readonly HashSet<string> _urls;
         private readonly HttpClient _client;
         string _checkurl;
@@ -23,9 +21,8 @@ namespace TestTask.NetTraineeUkad
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");
         }
 
-        internal async Task<List <string>> StartCrawler(string url)
+        internal async Task<List<string>> StartCrawler(string url)
         {
-            _requestCount = 0;
             _urls.Clear();
             _urls.Add(url);
 
@@ -39,11 +36,7 @@ namespace TestTask.NetTraineeUkad
 
         private async Task ProccessCrawler(string url, int depth)
         {
-            if (Interlocked.Increment(ref _requestCount) > maxRequestCount)
-            {
-                return;
-            }
-
+            Thread.Sleep(2000);
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
@@ -56,7 +49,7 @@ namespace TestTask.NetTraineeUkad
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(await response.Content.ReadAsStringAsync());
 
-            var links = htmlDocument.DocumentNode.SelectNodes("//a[@href]").Select(node => node.Attributes["href"].Value).Where(link => link.Length > 0 && !link.Contains("#") && !link.Contains("?"));
+            var links = htmlDocument.DocumentNode.SelectNodes("//a[@href]").Select(node => node.Attributes["href"].Value).Where(link => link.Length > 0);
 
             var tasks = new List<Task>();
 
