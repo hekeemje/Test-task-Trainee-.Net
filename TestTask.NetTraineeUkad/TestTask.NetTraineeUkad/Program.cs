@@ -8,11 +8,11 @@ namespace TestTask.NetTraineeUkad
     {
         static async Task Main(string[] args)
         {
-            Console.Write("Please, input url adress for crawling ( Example : https://github.com/ ) \nUrl : ");
-            string url = Console.ReadLine();
+            //Console.Write("Please, input url adress for crawling ( Example : https://github.com/ ) \nUrl : ");
+            //string url = Console.ReadLine();
             Console.WriteLine("Running...\n");
 
-            //var url = "https://seoagilitytools.com/";
+            var url = "https://github.com/";
 
             try
             {
