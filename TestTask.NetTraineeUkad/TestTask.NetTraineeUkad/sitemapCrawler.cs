@@ -6,7 +6,7 @@ namespace TestTask.NetTraineeUkad
 {
     internal class SitemapCrawler
     {
-        internal List<string> Parse(string sitemapURL)
+        internal static List<string> Parse(string sitemapURL)
         {
             var wc = new WebClient();
             var sitemapString = wc.DownloadString(sitemapURL);

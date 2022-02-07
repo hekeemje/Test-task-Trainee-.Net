@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestTask.NetTraineeUkad
 {
-    class OutputInfo
+    internal class OutputInfo
     {
-        internal async Task OutputAllInfoAsync(List<string> websiteUrls, List<string> sitemapUrls)
+        internal static async Task OutputAllInfoAsync(List<string> websiteUrls, List<string> sitemapUrls)
         {
-            byWebsite(websiteUrls, sitemapUrls);
-            bySitemap(websiteUrls, sitemapUrls);
+            ByWebsite(websiteUrls, sitemapUrls);
+            BySitemap(websiteUrls, sitemapUrls);
 
             if (sitemapUrls.Count == 0)
             {
-                await checkPingAndSortAsync(websiteUrls, websiteUrls.Count, sitemapUrls.Count);
+                await CheckPingAndSortAsync(websiteUrls, websiteUrls.Count, sitemapUrls.Count);
             }
             else
             {
-                List<string> mergedUrls = mergeUrls(websiteUrls, sitemapUrls);
+                var mergedUrls = MergeUrls(websiteUrls, sitemapUrls);
 
-                await checkPingAndSortAsync(mergedUrls, websiteUrls.Count, sitemapUrls.Count);
+                await CheckPingAndSortAsync(mergedUrls, websiteUrls.Count, sitemapUrls.Count);
             }
         }
 
-        private void byWebsite(List<string> websiteUrls, List<string> sitemapUrls)
+        private static void ByWebsite(List<string> websiteUrls, List<string> sitemapUrls)
         {
             Console.WriteLine("Urls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml\n");
 
@@ -53,7 +51,7 @@ namespace TestTask.NetTraineeUkad
             }
         }
 
-        private void bySitemap(List<string> websiteUrls, List<string> sitemapUrls)
+        private static void BySitemap(List<string> websiteUrls, List<string> sitemapUrls)
         {
             Console.WriteLine("\nUrls FOUNDED IN SITEMAP.XML but not founded after crawling a web site\n");
 
@@ -82,7 +80,7 @@ namespace TestTask.NetTraineeUkad
             }
         }
 
-        private List<string> mergeUrls(List<string> websiteUrls, List<string> sitemapUrls)
+        private static List<string> MergeUrls(List<string> websiteUrls, List<string> sitemapUrls)
         {
             var mergedUrls = new List<string>();
 
@@ -102,7 +100,7 @@ namespace TestTask.NetTraineeUkad
             return mergedUrls;
         }
 
-        private async Task checkPingAndSortAsync(List<string> allUrls, int websiteCount, int sitemapCount)
+        private static async Task CheckPingAndSortAsync(List<string> allUrls, int websiteCount, int sitemapCount)
         {
             var getAsyncTime = new GetAsyncUrl();
 

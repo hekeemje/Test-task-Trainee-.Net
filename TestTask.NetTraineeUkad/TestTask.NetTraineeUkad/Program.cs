@@ -17,7 +17,7 @@ namespace TestTask.NetTraineeUkad
             try
             {
                 using var webCrawler = new WebCrawler();
-                var websiteUrls = await webCrawler.startCrawler(url);
+                var websiteUrls = await webCrawler.StartCrawler(url);
 
                 var sitemap = new SitemapCrawler();
                 var sitemapUrls = new List<string>();
@@ -25,7 +25,7 @@ namespace TestTask.NetTraineeUkad
                 try
                 {
                     var sitemapUrl = url + "sitemap.xml";
-                    sitemapUrls = sitemap.Parse(sitemapUrl);
+                    sitemapUrls = SitemapCrawler.Parse(sitemapUrl);
                 }
 
                 catch
@@ -34,7 +34,7 @@ namespace TestTask.NetTraineeUkad
                 }
 
                 var outputInfo = new OutputInfo();
-                await outputInfo.OutputAllInfoAsync(websiteUrls, sitemapUrls);
+                await OutputInfo.OutputAllInfoAsync(websiteUrls, sitemapUrls);
             }
             catch
             {

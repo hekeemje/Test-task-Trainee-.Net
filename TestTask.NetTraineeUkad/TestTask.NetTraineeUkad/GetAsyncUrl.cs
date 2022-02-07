@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TestTask.NetTraineeUkad
 {
-    class GetAsyncUrl
+    internal class GetAsyncUrl
     {
         private readonly HttpClient _client;
-        private Dictionary<string, int> urlsPing;
+        private readonly Dictionary<string, int> urlsPing;
 
         public GetAsyncUrl()
         {
@@ -24,7 +24,7 @@ namespace TestTask.NetTraineeUkad
 
             foreach (var item in urls)
             {
-                tasks.Add(asyncTime(item));
+                tasks.Add(AsyncTime(item));
             }
 
             await Task.WhenAll(tasks);
@@ -32,7 +32,7 @@ namespace TestTask.NetTraineeUkad
             return urlsPing;
         }
 
-        private async Task asyncTime(string url)
+        private async Task AsyncTime(string url)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);

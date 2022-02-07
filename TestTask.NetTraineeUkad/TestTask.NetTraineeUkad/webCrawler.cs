@@ -23,7 +23,7 @@ namespace TestTask.NetTraineeUkad
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");
         }
 
-        internal async Task<List <string>> startCrawler(string url)
+        internal async Task<List <string>> StartCrawler(string url)
         {
             _requestCount = 0;
             _urls.Clear();
@@ -32,12 +32,12 @@ namespace TestTask.NetTraineeUkad
             var checkurl = url;
             _checkurl = checkurl.Replace("https://", "");
 
-            await proccessCrawler(url, 2);
+            await ProccessCrawler(url, 2);
 
             return _urls.ToList();
         }
 
-        private async Task proccessCrawler(string url, int depth)
+        private async Task ProccessCrawler(string url, int depth)
         {
             if (Interlocked.Increment(ref _requestCount) > maxRequestCount)
             {
@@ -79,14 +79,14 @@ namespace TestTask.NetTraineeUkad
 
                 if (depth > 0)
                 {
-                    tasks.Add(proccessCrawler(absUrl, depth - 1));
+                    tasks.Add(ProccessCrawler(absUrl, depth - 1));
                 }
             }
 
             await Task.WhenAll(tasks);
         }
 
-        private string GetAbsoluteUrlString(string baseUrl, string url)
+        private static string GetAbsoluteUrlString(string baseUrl, string url)
         {
             var uri = new Uri(url, UriKind.RelativeOrAbsolute);
 
